@@ -1,0 +1,30 @@
+<header id="header">
+    <div class="center">
+        <!--LOGO-->
+        <div id="logo">
+
+            <img src="assets/imagenes/guandera.jpg" class="app-logo" alt="Logotipo" />
+
+            <span id="brand">
+                <strong>Registro</strong>
+            </span>
+        </div>
+
+        <!--MENU-->
+        <nav id="menu">
+
+            <ul>
+                <li>
+                    <a [routerLink]="['/formulario']" [routerLinkActive]="['active']">FORMULARIO</a>
+
+                </li>
+                <li>
+                    <a [routerLink]="['/empleados']" [routerLinkActive]="['active']">EMPLEADOS</a>
+
+                </li>
+            </ul>
+
+        </nav>
+        <div class="clearfix"></div>    
+    </div>
+</header>
