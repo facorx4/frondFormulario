@@ -16,7 +16,7 @@ public sueldo: number,
 public eps: string,
 public arl: string,
 public observaciones: string,
-public image: string
+//public image: string
 
 ){}
 
