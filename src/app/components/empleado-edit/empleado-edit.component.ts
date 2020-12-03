@@ -1,4 +1,3 @@
-import { isNull } from '@angular/compiler/src/output/output_ast';
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import swal from 'sweetalert';
@@ -7,21 +6,21 @@ import { EmpleadoService } from '../../services/empleado.service';
 import { Global } from '../../services/global';
 
 @Component({
-  selector: 'app-formulario',
-  templateUrl: './formulario.component.html',
-  styleUrls: ['./formulario.component.css'],
+  selector: 'app-empleado-edit',
+  templateUrl: '../formulario/formulario.component.html',
+  styleUrls: ['./empleado-edit.component.css'],
   providers: [EmpleadoService]
 })
-export class FormularioComponent implements OnInit {
-
+export class EmpleadoEditComponent implements OnInit {
   public empleado: Empleado;
   public status: string;
-  public page_title: string;
   public is_edit: boolean;
+  public page_title: string;
+  public url: string;
 
   afuConfig = {
     multiple: false,
-    formatsAllowed: ".jpg,.png, .git, .jpeg",
+    formatsAllowed: ".jpg,.png, .git , .jpeg",
     maxSize: "50",
     uploadAPI: {
       url: Global.url + 'upload-image'
@@ -39,7 +38,7 @@ export class FormularioComponent implements OnInit {
       attachPinBtn: 'sube la foto del empleado',
       afterUploadMsg_success: 'Successfully Uploaded !',
       afterUploadMsg_error: 'Upload Failed !',
-      //sizeLimit: 'Size Limit'
+      sizeLimit: 'Size Limit'
     }
   };
 
@@ -49,34 +48,42 @@ export class FormularioComponent implements OnInit {
     private _router: Router,
     private _empleadoService: EmpleadoService
 
+
   ) {
 
 
     this.empleado = new Empleado('','', null , '', '','','', null,'','',null,'','','','');
-    this.is_edit = false;
-    this.page_title = 'Formulario';
+    this.is_edit = true;
+    this.page_title = 'Editar Empleado';
+    this.url = Global.url;
+    
 
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
+this.getEmpleado();
+
   }
+
   onSubmit() {
-    this._empleadoService.create(this.empleado).subscribe(
+    this._empleadoService.update(this.empleado._id,this.empleado).subscribe(
       response => {
         if (response.status == 'success') {
 
           this.status = 'success';
           this.empleado = response.empleado;
 
-          //alert
 
-          swal(
-            'Empleado Creado',
-            'El empleado se ha creado correctamente',
-            'success'
+ //alert
 
-          );
-          this._router.navigate(['/empleados']);
+ swal(
+  'Empleado Editado',
+  'El empleado se ha editado correctamente',
+  'success'
+
+);
+
+          this._router.navigate(['/empleado', this.empleado._id]);
         } else {
 
           this.status = 'error';
@@ -86,15 +93,47 @@ export class FormularioComponent implements OnInit {
       error => {
         console.log(error);
         this.status = 'error';
+        swal(
+          'Edición Fallida',
+          'El empleado no se ha editado correctamente',
+          'error'
+        
+        );
 
       }
     );
 
   }
 
-  imageUpload(data) {
+  imageUpload(data){
 
     let image_data = JSON.parse(data.response);
     this.empleado.image = image_data.image;
   }
+
+  getEmpleado(){
+    this._route.params.subscribe(params => {
+      let id = params['id'];
+      this._empleadoService.getEmpleado(id).subscribe(
+        response => {
+          if(response.empleado){
+            this.empleado = response.empleado;
+
+          }else{
+
+            this._router.navigate(['/formulario']);
+          }
+        },
+        error =>{
+          console.log(error);
+          this._router.navigate(['/formulario']);
+        }
+
+      );
+
+    });
+
+
+  }
+
 }

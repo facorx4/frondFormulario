@@ -1,10 +1,10 @@
-<h1>FORMULARIO</h1>
+<h1 class="subheader">{{page_title}}</h1>
 
-<form class="mid-form" #userForm="ngForm" (ngSubmit)="onSubmit()">
+<form class="mid-form" #empleadoForm="ngForm" (ngSubmit)="onSubmit()">
     <div class="form-group">
-        <label for="tipo_documento">Tipo de documento</label>
-        <select name="tipo_documento">
-            <option>-----------</option>
+        <label for="tipo_documento">Tipo de documento*</label>
+        <select name="tipo_documento"  [(ngModel)]="empleado.tipo_documento">
+        
             <option>Cédula Ciudadania</option>
 
             <option>Cédula Extranjeria</option>
@@ -13,9 +13,9 @@
         </select>
     </div>
     <div class="form-group">
-        <label for="cedula">Cedula</label>
-        <input type="number" name="cedula" #cedula="ngModel" [(ngModel)]="user.cedula" 
-        required />
+        <label for="cedula">Cedula*</label>
+        <input type="text" name="cedula" #cedula="ngModel" [(ngModel)]="empleado.cedula " 
+       required />
 
         <small *ngIf="!cedula.valid && cedula.touched">
 
@@ -23,8 +23,8 @@
         </small>
     </div>
     <div class="form-group">
-        <label for="nombre">Nombre</label>
-        <input type="text" name="nombre" #nombre="ngModel" [(ngModel)]="user.nombre" required  pattern="[a-zA-Z]+"/>
+        <label for="nombre">Nombre*</label>
+        <input type="text" name="nombre" #nombre="ngModel" [(ngModel)]="empleado.nombre" required  />
         <small *ngIf="!nombre.valid && nombre.touched">
 
             El nombre no es valido
@@ -32,34 +32,34 @@
     </div>
 
     <div class="form-group">
-        <label for="apellidos">Apellidos</label>
-        <input type="text" name="apellidos" #apellidos="ngModel" [(ngModel)]="user.apellidos" required  pattern="[a-zA-Z]+"/>
+        <label for="apellidos">Apellidos*</label>
+        <input type="text" name="apellidos" #apellidos="ngModel" [(ngModel)]="empleado.apellidos" required />
         <small *ngIf="!apellidos.valid && apellidos.touched">
 
             El apellido no es valido
         </small>
     </div>
 
-    <div class="form-group">
-
-        <input type="radio" name="genero" value="hombre" [(ngModel)]="user.genero" required />Hombre
-        <input type="radio" name="genero" value="mujer" [(ngModel)]="user.genero" />Mujer
-        <input type="radio" name="genero" value="otro" [(ngModel)]="user.genero" />Otro
+ <div class="form-group">
+    <label for="apellidos">Genero*</label>
+    <br>
+        <input type="radio" name="genero" value="hombre" [(ngModel)]="empleado.genero" required />Hombre
+        <input type="radio" name="genero" value="mujer" [(ngModel)]="empleado.genero" />Mujer
+        <input type="radio" name="genero" value="otro" [(ngModel)]="empleado.genero" />Otro
     </div>
 
     <div class="form-group">
         <label for="cargo">Cargo</label>
-        <input type="text" name="cargo" #cargo="ngModel" [(ngModel)]="user.cargo" />
+        <input type="text" name="cargo" #cargo="ngModel" [(ngModel)]="empleado.cargo" />
     </div>
-    <div class="form-group">
+  <div class="form-group">
         <label for="contrato">No. Contrato</label>
-        <input type="number" name="contrato" #contrato="ngModel" [(ngModel)]="user.contrato" />
+        <input type="text" name="contrato" #contrato="ngModel" [(ngModel)]="empleado.n_contrato" />
     </div>
 
     <div class="form-group">
         <label for="tipo_contrato">Tipo Contrato</label>
-        <select name="tipo_contrato">
-            <option>-----------</option>
+        <select name="tipo_contrato"  [(ngModel)]="empleado.tipo_de_contrato">
             <option>Término Fijo</option>
             <option>Término Indefinido</option>
             <option>Obra Labor</option>
@@ -73,35 +73,52 @@
 
     <div class="form-group">
         <label for="ingreso">Fecha Ingreso</label>
-        <input name="ingreso" type="date" #ingreso="ngModel" [(ngModel)]="user.ingreso" />
+        <input name="ingreso" type="date" #ingreso="ngModel" [(ngModel)]="empleado.fecha_ingreso" />
 
     </div>
     <div class="form-group">
         <label for="sueldo">Sueldo</label>
-        <input name="sueldo" type="number" #sueldo="ngModel" [(ngModel)]="user.sueldo" />
+        <input name="sueldo" type="text" #sueldo="ngModel" [(ngModel)]="empleado.sueldo" />
 
     </div>
 
     <div class="form-group">
         <label for="eps">EPS</label>
-        <input name="eps" type="text" #eps="ngModel" [(ngModel)]="user.eps" />
+        <input name="eps" type="text" #eps="ngModel" [(ngModel)]="empleado.eps" />
 
     </div>
 
 
     <div class="form-group">
         <label for="arl">ARL</label>
-        <input name="arl" type="text" #arl="ngModel" [(ngModel)]="user.arl" />
+        <input name="arl" type="text" #arl="ngModel" [(ngModel)]="empleado.arl" />
 
     </div>
 
     <div class="form-group">
         <label for="observaciones">Observaciones</label>
-        <textarea name="observaciones"></textarea>
+        <textarea name="observaciones"  [(ngModel)]="empleado.observaciones"></textarea>
+    </div> 
+
+    <div class="form-group">
+        
+        <div class="image-thumb" *ngIf="is_edit">
+
+            
+                <img src="{{url + 'get-image/' +empleado.image}}" alt="empleado.nombre" *ngIf="empleado.image" />
+                <img src="assets/imagenes/default-user-image.png" alt="empleado.nombre" *ngIf="!empleado.image" />
+          
+
+        </div>
+        <angular-file-uploader
+      [config]="afuConfig"
+      (ApiResponse)="imageUpload($event)"
+      >
+</angular-file-uploader>
     </div>
 
+<div class="clearfix"></div>
 
-
-    <input type="submit" value="Guardar" class="btn btn-success" [disabled]="userForm.invalid" />
+    <input type="submit" value="Guardar" class="btn btn-success" [disabled]="empleadoForm.invalid" />
 
 </form>

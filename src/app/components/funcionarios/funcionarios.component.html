@@ -1,0 +1,23 @@
+<h1 class="subheader">Lista Empleados</h1>
+
+<div class="center">
+    <section id="content">
+<div id="empleados">
+    <article class="article-item" *ngFor="let empleado of empleados">
+        <div class="image-wrap">
+            <img src="{{url + 'get-image/' +empleado.image}}" alt="empleado.nombre" *ngIf="empleado.image"/>
+            <img src="assets/imagenes/default-user-image.png" alt="empleado.nombre" *ngIf="!empleado.image"/>
+        </div>
+
+        <h2 >{{empleado.nombre + ' ' + empleado.apellidos}}</h2>
+        <span class="date">
+            {{empleado.cargo}}
+        </span>
+        <a [routerLink]="['/empleado', empleado._id]">Leer más</a>
+
+        <div class="clearfix"></div>
+    </article>
+</div>
+
+</section>
+</div>

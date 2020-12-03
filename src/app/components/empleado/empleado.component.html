@@ -1,0 +1,86 @@
+<h1 class="subheader">Empleado</h1>
+
+<div class="center">
+    <section id="content">
+
+        <article class="article-item article-detail" *ngIf="empleado">
+            <div class="image-wrap">
+                <img src="{{url + 'get-image/' +empleado.image}}" alt="empleado.nombre" *ngIf="empleado.image" />
+                <img src="assets/imagenes/default-user-image.png" alt="empleado.nombre" *ngIf="!empleado.image" />
+            </div>
+            <h1 class="subheader">{{empleado.nombre + ' ' + empleado.apellidos}}</h1>
+            <span class="date">
+                Tipo de documento
+            </span>
+            <h4>{{empleado.tipo_documento}}</h4>
+            <span class="date">
+                Cedula
+            </span>
+            <h4>{{empleado.cedula}}</h4>
+
+            <span class="date">
+                Genero
+            </span>
+            <h4>{{empleado.genero}}</h4>
+
+            <span class="date" *ngIf="empleado.cargo">
+                Cargo
+            </span>
+            <h4 *ngIf="empleado.cargo">{{empleado.cargo}}</h4>
+
+
+            <span class="date" *ngIf="empleado.n_contrato">
+                No. Contrato
+            </span>
+            <h4 *ngIf="empleado.n_contrato">{{empleado.n_contrato}}</h4>
+
+            <span class="date" *ngIf="empleado.tipo_de_contrato">
+                Tipo de contrato
+            </span>
+            <h4 *ngIf="empleado.tipo_de_contrato">{{empleado.tipo_de_contrato}}</h4>
+
+            <span class="date" *ngIf="empleado.fecha_ingreso">
+                Fecha Ingreso
+            </span>
+            <h4 *ngIf="empleado.fecha_ingreso">{{empleado.fecha_ingreso}}</h4>
+
+            <span class="date" *ngIf="empleado.sueldo">
+                Sueldo
+            </span>
+            <h4 *ngIf="empleado.sueldo">{{empleado.sueldo}}</h4>
+
+            <span class="date" *ngIf="empleado.eps">
+                EPS
+            </span>
+            <h4 *ngIf="empleado.eps">{{empleado.eps}}</h4>
+
+            <span class="date" *ngIf="empleado.arl">
+                ARL
+            </span>
+            <h4 *ngIf="empleado.arl">{{empleado.arl}}</h4>
+
+            <span class="date" *ngIf="empleado.observaciones">
+                Observaciones
+            </span>
+            <h4 *ngIf="empleado.observaciones">{{empleado.observaciones}}</h4>
+
+
+
+
+
+
+
+
+            <a [routerLink]="['/editar', empleado._id]" class="btn btn-warning">Editar</a>
+            <a (click)="delete(empleado._id)" class="btn btn-danger">Eliminar</a>
+
+
+        </article>
+
+
+
+    </section>
+
+
+
+</div>
